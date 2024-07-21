@@ -9,16 +9,15 @@ import { transformImage } from "../../lib/features";
 
 const Profile = ({ user }) => {
   return (
-    <Stack spacing={4} direction="column" alignItems="center">
+    <Stack spacing={"2rem"} direction={"column"} alignItems={"center"}>
       <Avatar
         src={transformImage(user?.avatar?.url)}
         sx={{
           width: 150,
           height: 150,
           objectFit: "contain",
-          marginBottom: 2,
+          marginBottom: "1rem",
           border: "2px solid #2E1437",
-          borderRadius: "50%",
         }}
       />
       <ProfileCard text={user?.name} Icon={<FaceIcon />} />
@@ -29,8 +28,7 @@ const Profile = ({ user }) => {
         Icon={<UserNameIcon />}
       />
 
-      <ProfileCard heading={"Bio"} text={user?.bio} />
-
+      {/* <ProfileCard heading={"Bio"} text={user?.bio} /> */}
       <ProfileCard
         heading={"Joined"}
         text={moment(user?.createdAt).fromNow()}
@@ -42,21 +40,16 @@ const Profile = ({ user }) => {
 
 const ProfileCard = ({ text, Icon, heading }) => (
   <Stack
-    direction="row"
-    alignItems="center"
-    spacing={2}
-    sx={{
-      padding: 2,
-      backgroundColor: "#2E1437",
-      borderRadius: 2,
-      boxShadow: "0px 0px 10px rgba(0,0,0,0.1)",
-    }}
+    direction={"row"}
+    alignItems={"center"}
+    spacing={"1rem"}
+    color={"white"}
+    textAlign={"center"}
   >
-    {Icon && <Icon sx={{ fontSize: 24, color: "white" }} />}
+    {Icon && Icon}
+
     <Stack>
-      <Typography variant="body1" sx={{ color: "white" }}>
-        {text}
-      </Typography>
+      <Typography variant="body1">{text}</Typography>
       <Typography color={"gray"} variant="caption">
         {heading}
       </Typography>
