@@ -1,3 +1,9 @@
+// src/components/layout/Header.js
+import { Suspense, lazy } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import axiosInstance from "../../constants/axiosconfig";
+import toast from "react-hot-toast";
 import {
   AppBar,
   Backdrop,
@@ -6,10 +12,7 @@ import {
   IconButton,
   Toolbar,
   Tooltip,
-  Typography,
 } from "@mui/material";
-import React, { Suspense, lazy, useState } from "react";
-import { orange } from "../../constants/color";
 import {
   Add as AddIcon,
   Menu as MenuIcon,
@@ -18,12 +21,6 @@ import {
   Logout as LogoutIcon,
   Notifications as NotificationsIcon,
 } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { server } from "../../constants/config";
-import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
-import { userNotExists } from "../../redux/reducers/auth";
 import {
   setIsMobile,
   setIsNewGroup,
@@ -31,7 +28,9 @@ import {
   setIsSearch,
 } from "../../redux/reducers/misc";
 import { resetNotificationCount } from "../../redux/reducers/chat";
-
+import { userNotExists } from "../../redux/reducers/auth";
+import logo from "../../Images/Logo.png";
+import logo1 from "../../Images/Logo1.png";
 const SearchDialog = lazy(() => import("../specific/Search"));
 const NotifcationDialog = lazy(() => import("../specific/Notifications"));
 const NewGroupDialog = lazy(() => import("../specific/NewGroup"));
@@ -39,32 +38,23 @@ const NewGroupDialog = lazy(() => import("../specific/NewGroup"));
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const { isSearch, isNotification, isNewGroup } = useSelector(
     (state) => state.misc
   );
   const { notificationCount } = useSelector((state) => state.chat);
 
   const handleMobile = () => dispatch(setIsMobile(true));
-
   const openSearch = () => dispatch(setIsSearch(true));
-
-  const openNewGroup = () => {
-    dispatch(setIsNewGroup(true));
-  };
-
+  const openNewGroup = () => dispatch(setIsNewGroup(true));
   const openNotification = () => {
     dispatch(setIsNotification(true));
     dispatch(resetNotificationCount());
   };
-
   const navigateToGroup = () => navigate("/groups");
 
   const logoutHandler = async () => {
     try {
-      const { data } = await axios.get(`${server}/api/v1/user/logout`, {
-        withCredentials: true,
-      });
+      const { data } = await axiosInstance.get("/api/v1/user/logout");
       dispatch(userNotExists());
       toast.success(data.message);
     } catch (error) {
@@ -78,82 +68,93 @@ const Header = () => {
         <AppBar
           position="static"
           sx={{
-            bgcolor: orange,
+            height: "4rem",
+            backgroundColor: "#2E1437",
+            display: "flex",
           }}
         >
-          <Toolbar>
-            <Typography
-              variant="h6"
-              sx={{
-                display: { xs: "none", sm: "block" },
-              }}
-            >
-              Chattu
-            </Typography>
-
-            <Box
-              sx={{
-                display: { xs: "block", sm: "none" },
-              }}
-            >
-              <IconBtn
-                title={"Search"}
-                icon={<SearchIcon />}
-                onClick={openSearch}
-              />
-              <IconButton color="inherit" onClick={handleMobile}>
-                <MenuIcon />
-              </IconButton>
-
-              <IconBtn
-                title={"Notifications"}
-                icon={<NotificationsIcon />}
-                onClick={openNotification}
-                value={notificationCount}
-              />
-
-              <IconBtn
-                title={"Logout"}
-                icon={<LogoutIcon />}
-                onClick={logoutHandler}
-              />
-            </Box>
-            <Box
-              sx={{
-                flexGrow: 1,
-              }}
-            />
+          <Toolbar
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "0 1rem",
+            }}
+          >
             <Box>
-              <IconBtn
-                title={"Search"}
-                icon={<SearchIcon />}
-                onClick={openSearch}
-              />
-
-              <IconBtn
-                title={"New Group"}
-                icon={<AddIcon />}
-                onClick={openNewGroup}
-              />
-
-              <IconBtn
-                title={"Manage Groups"}
-                icon={<GroupIcon />}
-                onClick={navigateToGroup}
-              />
-
-              <IconBtn
-                title={"Notifications"}
-                icon={<NotificationsIcon />}
-                onClick={openNotification}
-                value={notificationCount}
-              />
-
-              <IconBtn
-                title={"Logout"}
-                icon={<LogoutIcon />}
-                onClick={logoutHandler}
-              />
+              <Box
+                sx={{
+                  display: { xs: "none", sm: "block" },
+                }}
+              >
+                <img
+                  src={logo}
+                  height={"50px"}
+                  style={{
+                    marginLeft: "-1rem",
+                  }}
+                  alt="Logo"
+                />
+              </Box>
+              <Box
+                sx={{
+                  display: { xs: "block", sm: "none" },
+                }}
+              >
+                <img
+                  src={logo1}
+                  height={"50px"}
+                  style={{
+                    marginLeft: "-1rem",
+                  }}
+                  alt="Logo"
+                />
+              </Box>
+            </Box>
+            <Box>
+              <Box
+                sx={{
+                  display: { xs: "block", sm: "none" },
+                }}
+              >
+                <IconBtn
+                  title="Menu"
+                  icon={<MenuIcon />}
+                  onClick={handleMobile}
+                />
+              </Box>
+              <Box
+                sx={{
+                  display: { xs: "none", sm: "block" },
+                }}
+              >
+                <IconBtn
+                  title="Search"
+                  icon={<SearchIcon />}
+                  onClick={openSearch}
+                />
+                <IconBtn
+                  title="New Group"
+                  icon={<AddIcon />}
+                  onClick={openNewGroup}
+                />
+                <IconBtn
+                  title="Groups"
+                  icon={<GroupIcon />}
+                  onClick={navigateToGroup}
+                />
+                <IconBtn
+                  title="Notification"
+                  icon={<NotificationsIcon />}
+                  onClick={openNotification}
+                  value={notificationCount}
+                />
+                <IconBtn
+                  title="Logout"
+                  icon={<LogoutIcon />}
+                  onClick={logoutHandler}
+                />
+              </Box>
             </Box>
           </Toolbar>
         </AppBar>
