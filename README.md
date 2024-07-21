@@ -18,14 +18,15 @@ peepChat is a feature-rich chat application frontend built with React, Redux, an
 - **Other Libraries**: react-hot-toast, react-helmet-async, chart.js
 ## Setup and Installation
 ### Prerequisites
-Node.js
+Vite
+NodeJs
 npm or yarn
 ### Installation
 **Clone the repository**:
 
 ```bash 
-git clone https://github.com/paritosh142/peepChat.git
-cd peepChat
+git clone https://github.com/paritosh142/peepChat-Frontend.git
+cd peepChat-Frontend
 ```
 Install the dependencies:
 
@@ -49,7 +50,7 @@ or
 ```bash
 yarn dev
 ```
-Open your browser and navigate to http://localhost:3000 to see the application running.
+Open your browser and navigate to http://localhost: to see the application running.
 
 ## Usage
 - **Login**: Use your credentials to log in.
