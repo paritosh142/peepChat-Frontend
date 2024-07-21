@@ -28,7 +28,7 @@ const Profile = ({ user }) => {
         Icon={<UserNameIcon />}
       />
 
-      {/* <ProfileCard heading={"Bio"} text={user?.bio} /> */}
+      <ProfileCard heading={"Bio"} text={user?.bio} />
       <ProfileCard
         heading={"Joined"}
         text={moment(user?.createdAt).fromNow()}
