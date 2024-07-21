@@ -28,7 +28,7 @@ const Profile = ({ user }) => {
         Icon={<UserNameIcon />}
       />
 
-      <ProfileCard heading={"Bio"} text={user?.bio} />
+      {/* <ProfileCard heading={"Bio"} text={user?.bio} /> */}
       <ProfileCard
         heading={"Joined"}
         text={moment(user?.createdAt).fromNow()}
@@ -42,15 +42,14 @@ const ProfileCard = ({ text, Icon, heading }) => (
   <Stack
     direction={"row"}
     alignItems={"center"}
-    spacing={"2rem"}
+    spacing={"1rem"}
     color={"white"}
     textAlign={"center"}
   >
-    {Icon && <Icon sx={{ fontSize: 24, color: "white" }} />}
+    {Icon && Icon}
+
     <Stack>
-      <Typography variant="body1" sx={{ color: "white" }}>
-        {text}
-      </Typography>
+      <Typography variant="body1">{text}</Typography>
       <Typography color={"gray"} variant="caption">
         {heading}
       </Typography>
