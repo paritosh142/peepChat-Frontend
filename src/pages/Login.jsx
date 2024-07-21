@@ -167,6 +167,21 @@ const Login = () => {
                   onChange={password.changeHandler}
                 />
 
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  sx={{ mt: 1 }}
+                >
+                  Demo Username: <strong>Sarina.Bahringer27</strong>
+                </Typography>
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  sx={{ mb: 2 }}
+                >
+                  Demo Password: <strong>password</strong>
+                </Typography>
+
                 <Button
                   sx={{
                     marginTop: "1rem",
