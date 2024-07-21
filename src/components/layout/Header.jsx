@@ -1,9 +1,3 @@
-// src/components/layout/Header.js
-import { Suspense, lazy } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import axiosInstance from "../../constants/axiosconfig";
-import toast from "react-hot-toast";
 import {
   AppBar,
   Backdrop,
@@ -13,6 +7,7 @@ import {
   Toolbar,
   Tooltip,
 } from "@mui/material";
+import { Suspense, lazy, useState } from "react";
 import {
   Add as AddIcon,
   Menu as MenuIcon,
@@ -21,6 +16,12 @@ import {
   Logout as LogoutIcon,
   Notifications as NotificationsIcon,
 } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { server } from "../../constants/config";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { userNotExists } from "../../redux/reducers/auth";
 import {
   setIsMobile,
   setIsNewGroup,
@@ -28,9 +29,9 @@ import {
   setIsSearch,
 } from "../../redux/reducers/misc";
 import { resetNotificationCount } from "../../redux/reducers/chat";
-import { userNotExists } from "../../redux/reducers/auth";
 import logo from "../../Images/Logo.png";
 import logo1 from "../../Images/Logo1.png";
+
 const SearchDialog = lazy(() => import("../specific/Search"));
 const NotifcationDialog = lazy(() => import("../specific/Notifications"));
 const NewGroupDialog = lazy(() => import("../specific/NewGroup"));
@@ -38,23 +39,30 @@ const NewGroupDialog = lazy(() => import("../specific/NewGroup"));
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const { isSearch, isNotification, isNewGroup } = useSelector(
     (state) => state.misc
   );
   const { notificationCount } = useSelector((state) => state.chat);
 
   const handleMobile = () => dispatch(setIsMobile(true));
+
   const openSearch = () => dispatch(setIsSearch(true));
+
   const openNewGroup = () => dispatch(setIsNewGroup(true));
+
   const openNotification = () => {
     dispatch(setIsNotification(true));
     dispatch(resetNotificationCount());
   };
+
   const navigateToGroup = () => navigate("/groups");
 
   const logoutHandler = async () => {
     try {
-      const { data } = await axiosInstance.get("/api/v1/user/logout");
+      const { data } = await axios.get(`${server}/api/v1/user/logout`, {
+        withCredentials: true,
+      });
       dispatch(userNotExists());
       toast.success(data.message);
     } catch (error) {
