@@ -8,6 +8,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Suspense, lazy, useState } from "react";
+
 import {
   Add as AddIcon,
   Menu as MenuIcon,
@@ -31,6 +32,9 @@ import {
 import { resetNotificationCount } from "../../redux/reducers/chat";
 import logo from "../../Images/Logo.png";
 import logo1 from "../../Images/Logo1.png";
+import ChatIcon from '@mui/icons-material/Chat';
+
+
 
 const SearchDialog = lazy(() => import("../specific/Search"));
 const NotifcationDialog = lazy(() => import("../specific/Notifications"));
@@ -49,7 +53,9 @@ const Header = () => {
 
   const openSearch = () => dispatch(setIsSearch(true));
 
-  const openNewGroup = () => dispatch(setIsNewGroup(true));
+  const openNewGroup = () => {
+    dispatch(setIsNewGroup(true));
+  };
 
   const openNotification = () => {
     dispatch(setIsNotification(true));
@@ -60,7 +66,7 @@ const Header = () => {
 
   const logoutHandler = async () => {
     try {
-      const { data } = await axios.get(`${server}/api/v1/user/logout`, {
+      const { data } = await axios.get(${server}/api/v1/user/logout, {
         withCredentials: true,
       });
       dispatch(userNotExists());
@@ -126,10 +132,26 @@ const Header = () => {
                 }}
               >
                 <IconBtn
+                  title={"Search"}
+                  icon={<SearchIcon />}
+                  onClick={openSearch}
+                />
+                <IconBtn
                   title="Menu"
                   icon={<MenuIcon />}
                   onClick={handleMobile}
                 />
+                <IconBtn
+                  title={"Notification"}
+                  icon={<NotificationsIcon />}
+                  onClick={openNotification}
+                />
+                <IconBtn
+                  title={"Logout"}
+                  icon={<LogoutIcon />}
+                  onClick={logoutHandler}
+                />
+
               </Box>
               <Box
                 sx={{
@@ -137,28 +159,27 @@ const Header = () => {
                 }}
               >
                 <IconBtn
-                  title="Search"
+                  title={"Search"}
                   icon={<SearchIcon />}
                   onClick={openSearch}
                 />
                 <IconBtn
-                  title="New Group"
+                  title={"New Group"}
                   icon={<AddIcon />}
                   onClick={openNewGroup}
                 />
                 <IconBtn
-                  title="Groups"
+                  title={"Groups"}
                   icon={<GroupIcon />}
                   onClick={navigateToGroup}
                 />
                 <IconBtn
-                  title="Notification"
+                  title={"Notification"}
                   icon={<NotificationsIcon />}
                   onClick={openNotification}
-                  value={notificationCount}
                 />
                 <IconBtn
-                  title="Logout"
+                  title={"Logout"}
                   icon={<LogoutIcon />}
                   onClick={logoutHandler}
                 />
